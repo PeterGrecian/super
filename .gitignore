@@ -1,0 +1,53 @@
+# Dev-Ops Repository .gitignore
+
+# Temporary files
+*.tmp
+*.swp
+*~
+.DS_Store
+
+# Sensitive information
+# Add any files containing credentials, IPs, or other sensitive data
+*_private.md
+secrets/
+credentials/
+
+# Editor specific
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS specific
+Thumbs.db
+.Spotlight-V100
+.Trashes
+
+# Logs
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+*.so
+.pytest_cache/
+
+# Virtual environments (if you keep any scripts here)
+venv/
+env/
+ENV/
+
+# Terraform (in case you track terraform projects here)
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+
+# Backup files
+*.backup
+*.bak
+
+# Note: Most markdown files SHOULD be committed
+# Only add specific files to .gitignore if they contain sensitive info
