@@ -183,8 +183,21 @@ def scan_file(path: Path, markers: List[str]) -> List[Dict]:
     return todos
 
 def looks_critical(text: str) -> bool:
-    t = text.lower()
-    return any(word in t for word in CRITICAL_WORDS)
+    """
+    Check if a TODO looks critical. Only flag if critical words appear as whole words
+    (with word boundaries) at the very beginning of the text (first 20 chars).
+    This avoids false positives from casual mentions like "security vs. UX trade-off".
+    """
+    # Only check first 20 chars to focus on priority markers at the start
+    text_start = text[:20].lower()
+
+    # Check for whole word matches using word boundaries
+    import re
+    for word in CRITICAL_WORDS:
+        # Match word with word boundaries (\b) to avoid substring matches
+        if re.search(r'\b' + re.escape(word) + r'\b', text_start):
+            return True
+    return False
 
 def main():
     args = parse_args()
