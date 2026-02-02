@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# Script to pull all git repositories in the home directory
+
+set -e
+
+HOME_DIR="${HOME:-/home/tot}"
+cd "$HOME_DIR"
+
+echo "=== Pulling all git repositories ==="
+echo ""
+
+# Find all directories containing .git (repos)
+repos=$(find . -maxdepth 2 -name ".git" -type d 2>/dev/null | sed 's|/.git||' | sort)
+
+if [ -z "$repos" ]; then
+    echo "No repositories found"
+    exit 0
+fi
+
+total=$(echo "$repos" | wc -l)
+count=0
+success=0
+failed=0
+
+for repo in $repos; do
+    count=$((count + 1))
+    repo_name=$(basename "$repo")
+
+    echo "[$count/$total] Pulling $repo_name..."
+
+    if cd "$HOME_DIR/$repo" 2>/dev/null; then
+        if git pull 2>&1; then
+            success=$((success + 1))
+            echo "  ✓ Success"
+        else
+            failed=$((failed + 1))
+            echo "  ✗ Failed"
+        fi
+        echo ""
+    else
+        echo "  ✗ Could not enter directory"
+        failed=$((failed + 1))
+        echo ""
+    fi
+done
+
+echo "=== Summary ==="
+echo "Total: $total | Success: $success | Failed: $failed"
