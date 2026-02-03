@@ -1,0 +1,11 @@
+#!/bin/bash
+# Add a TODO to the current repo's root TODO.md, commit, and push.
+# Usage: todo something to do later
+
+ROOT=$(git rev-parse --show-toplevel 2>/dev/null) || { echo "Not in a git repo"; exit 1; }
+[ -z "$*" ] && { echo "Usage: todo <text>"; exit 1; }
+
+echo "$*" >> "$ROOT/TODO.md"
+git -C "$ROOT" add TODO.md
+git -C "$ROOT" commit -m "todo: $*" -- TODO.md
+git -C "$ROOT" push
