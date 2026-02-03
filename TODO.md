@@ -745,3 +745,4 @@
 
 - https://github.com/PeterGrecian/tmft/blob/main/SG/SG.py#L96 — does not matter if the newIds are all the same...
 
+concense QUICKREF
